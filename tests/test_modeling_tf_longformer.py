@@ -17,7 +17,7 @@
 import unittest
 
 from transformers import is_tf_available
-from transformers.testing_utils import require_tf, slow
+from transformers.testing_utils import require_sentencepiece, require_tf, require_tokenizers, slow
 
 from .test_configuration_common import ConfigTester
 from .test_modeling_tf_common import TFModelTesterMixin, ids_tensor
@@ -264,9 +264,6 @@ class TFLongformerModelTester:
 
 @require_tf
 class TFLongformerModelTest(TFModelTesterMixin, unittest.TestCase):
-    test_pruning = False  # pruning is not supported
-    test_headmasking = False  # head masking is not supported
-    test_torchscript = False
 
     all_model_classes = (
         (
@@ -307,6 +304,8 @@ class TFLongformerModelTest(TFModelTesterMixin, unittest.TestCase):
 
 
 @require_tf
+@require_sentencepiece
+@require_tokenizers
 class TFLongformerModelIntegrationTest(unittest.TestCase):
     def _get_hidden_states(self):
         return tf.convert_to_tensor(
